@@ -64,4 +64,22 @@ describe('/post test',()=>{
 
     });
 
+    it('can\'t add an invalid data',(done)=>{
+
+        supertest(app)
+        .post('/about')
+        .send({})
+        .expect(400)
+        .end((err,res)=>{
+          if (err) {
+            done(err);
+          }
+          todo.find({}).then((todo)=>{
+            expect(todo.length).toBe(0);
+            done();
+          }).catch((e)=>done(e))
+        });
+        
+    });
+
 });

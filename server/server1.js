@@ -21,10 +21,21 @@ app.post('/about',(req,res)=>{
   Todo.save().then((doc)=>{
     res.send(doc);
   },(e)=>{
-    console.log('something is wrong karm',e);
+    res.status(400).send('something is wrong!! karm with __todo__ ')
+    // console.log('',e);
   });
 });
 
+//stage: /GET for todo
+ app.get('/about',(req,res)=>{
+     todo.find().then((todos)=>{
+         res.send({todos});
+     },(e)=>{
+       res.status(400).send(e);
+     });
+ });
+
+// stage: Post for User
 app.post('/User',(req,res)=>{
   var user = new User({
     name:req.body.namea ,
@@ -37,6 +48,8 @@ user.save().then((docs)=>{
     res.status(400).send(`something went wrong !!${e}`);
   });
 });
+
+//stage:
 
 
 app.listen(3000,()=>{

@@ -3,7 +3,7 @@ var todo=mongoose.model('karna',
 {
   text:{
     type:String,
-    // required:true,
+    required:true,
     trim:true
   },
   completedat:{
