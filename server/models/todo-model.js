@@ -1,9 +1,9 @@
 const mongoose=require('mongoose');
-var todo=mongoose.model('Todo',
+var todo=mongoose.model('karna',
 {
   text:{
     type:String,
-    required:true,
+    // required:true,
     trim:true
   },
   completedat:{

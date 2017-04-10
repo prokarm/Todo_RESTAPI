@@ -1,0 +1,22 @@
+//  it('should add data to todo collection correctly',(done)=>{
+//     var textdata = 'i love my life';
+//    supertest(app)
+//    .post('/about')
+//    .send({textdata})
+//    .expect(200)
+//    .expect((res)=>{
+//      expect(res.body.text).toBe(textdata);
+//    })
+//    .end((err,res)=>{
+//      if(err){
+//        return done(err);
+//      }
+//      todos.find({}).then((todo)=>{
+//        expect(todo.length).toBe(1);
+//        expect(todo[0].text).toBe(textdata);
+//        done();
+//      });
+//    });
+ //
+ //
+//  });
