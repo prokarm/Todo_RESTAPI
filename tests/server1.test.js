@@ -1,14 +1,17 @@
 const expect = require('expect');
 const supertest = require('supertest');
+const {ObjectID}=require('mongodb');
 
 const {app}=require('./../server/server1.js');
 const {todo}=require('./../server/models/todo-model.js')
 const {User}=require('./../server/models/user-model.js');
 
 todo_data=[{
+  _id:new ObjectID() ,  //creating id  manually
   text:'study nodejs'
 },
 {
+  _id:new ObjectID(),
   text:'watcing movie'
 }];
 //deleting every data before testing for todo
@@ -23,6 +26,8 @@ beforeEach((done)=>{
    return todo.insertMany(todo_data);
  }).then(()=>done());
 });
+
+
 
 describe('/post test',()=>{
 
@@ -98,6 +103,9 @@ describe('/post test',()=>{
 
 
 });
+
+
+
 describe('/Get Routes',()=>{
 
   it('should get all data from todos',(done)=>{
@@ -110,8 +118,45 @@ describe('/Get Routes',()=>{
         expect(res.body.todo.length).toBe(2);
       });
       })
-      .end(done());
+      .end(done);
 
-  });
+  });//end it
 
-});
+
+
+}); //end describe
+
+
+describe('GET todo/:id tests',()=>{
+
+  it('should check  id and return the correct one from database ',(done)=>{
+
+      //  since we need an id ,for that we  will create an custom id with the help of the ObjectID as in mongodb id is
+      //  created automatically
+      supertest(app)
+      .get(`/about/${todo_data[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res)=>{
+         expect(res.body.tododata.text).toBe(todo_data[0].text);  //tododata is what we sended back which is defined in the server routes  of server file
+      })
+      .end(done);
+  });//end it
+
+  it('should return 404 for id which is not present in the db',(done)=>{
+
+       var Hexid = new ObjectID().toHexString();
+
+       supertest(app)
+      .get(`/about/${Hexid}`)
+      .expect(404)
+      .end(done);
+  });//end it
+
+  it('should retrun 404 for invalid url',(done)=>{
+
+        supertest(app)
+        .get(`/about/1234`)
+        .expect(404)
+        .end(done);
+  });//end it
+});//end describe
