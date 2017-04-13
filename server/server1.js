@@ -1,5 +1,7 @@
+
 const express=require('express');
 const bodyParser=require('body-parser');//its a middleware which stores the data being posted as a body
+const {ObjectID}=require('mongodb');
 
 const mongoose=require('./database/mongooseORM.js');
 const {todo}=require('./models/todo-model.js'); // is old method or alternatively const Todo = require('./models/todo-model.js').todo;
@@ -49,7 +51,34 @@ user.save().then((docs)=>{
   });
 });
 
-//stage:
+//stage:to get an id from the user
+
+app.get('/about/:id',(req,res)=>{
+  var id = req.params.id;
+
+   if(!ObjectID.isValid(id)){
+     res.status(404).send();
+     console.log('id you provided is invalid');
+     return;
+   }
+
+   todo.findById(id).then((tododata)=>{
+  if (!tododata) {
+    res.status(404).send();
+    console.log('id is not present in the document!!');
+  }
+    res.send({tododata});
+
+  },(e)=>{
+     res.status(404).send(id)
+     console.log('data is found in the collection');
+   }).catch((e)=>{
+     res.status(404).send();
+   });
+
+
+
+});     // /:id is the url pattern similar to todos/123 where id:123
 
 
 app.listen(3000,()=>{

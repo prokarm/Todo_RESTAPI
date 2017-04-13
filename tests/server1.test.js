@@ -5,16 +5,28 @@ const {app}=require('./../server/server1.js');
 const {todo}=require('./../server/models/todo-model.js')
 const {User}=require('./../server/models/user-model.js');
 
+todo_data=[{
+  text:'study nodejs'
+},
+{
+  text:'watcing movie'
+}];
+//deleting every data before testing for todo
 beforeEach((done)=>{
   User.remove({}).then(()=>done());
 
 });
+//deleting every data before testing for todo
 beforeEach((done)=>{
-  todo.remove({}).then(()=>done());
+  todo.remove({}).then(()=>{
+
+   return todo.insertMany(todo_data);
+ }).then(()=>done());
 });
 
 describe('/post test',()=>{
-   it('sholud perform post well',(done)=>{
+
+   it('sholud add data to users',(done)=>{
 
     //  var text= 'Akash is my friend';
     //  var dummy_age=33;
@@ -34,14 +46,14 @@ describe('/post test',()=>{
               return done(err);
             }
              User.find({}).then((todos)=>{
-                expect(todos.length).toBe(1);
+                 expect(todos.length).toBe(1);
                 expect(todos[0].name).toBe(namea);
                 done();
              }).catch((e)=>done(e));
           });
    });
 
-    it('should add data to todo collection correctly',(done)=>{
+    it('should add data to todo',(done)=>{
        var textdata = 'i love my life';
       supertest(app)
       .post('/about')
@@ -54,11 +66,12 @@ describe('/post test',()=>{
         if(err){
           return done(err);
         }
-        todo.find({}).then((todo)=>{
+        todo.find({text:textdata}).then((todo)=>{
           expect(todo.length).toBe(1);
           expect(todo[0].text).toBe(textdata);
           done();
-        }).catch((e)=>done(e))
+        }).catch((e)=>done(e));
+
       });
 
 
@@ -75,11 +88,30 @@ describe('/post test',()=>{
             done(err);
           }
           todo.find({}).then((todo)=>{
-            expect(todo.length).toBe(0);
+            expect(todo.length).toBe(2);
             done();
           }).catch((e)=>done(e))
         });
-        
+
     });
+
+
+
+});
+describe('/Get Routes',()=>{
+
+  it('should get all data from todos',(done)=>{
+      supertest(app)
+      .get('/about')
+      .expect(200)
+      .expect((res)=>{
+      todo.find().then((todos)=>{
+        // console.log(todos);
+        expect(res.body.todo.length).toBe(2);
+      });
+      })
+      .end(done());
+
+  });
 
 });
