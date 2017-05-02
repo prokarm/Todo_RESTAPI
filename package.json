@@ -4,7 +4,11 @@
   "description": "creating a api with mongodb mongoos and aother rest apis\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C,\u001b[D",
   "main": "mongodb_connect.js",
   "scripts": {
+    "start":"node server/server1.js",
     "test": "mocha tests/**.test.js"
+  },
+  "engines":{
+    "node":"6.9.4"
   },
   "author": "karm",
   "license": "ISC",
