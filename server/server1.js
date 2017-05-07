@@ -1,8 +1,10 @@
+require('./config/config.js');
 const _ = require('lodash');
 const express=require('express');
 const bodyParser=require('body-parser');//its a middleware which stores the data being posted as a body
 const {ObjectID}=require('mongodb');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const mongoose=require('./database/mongooseORM.js');
 const {todo}=require('./models/todo-model.js'); // is old method or alternatively const Todo = require('./models/todo-model.js').todo;
@@ -11,8 +13,8 @@ const {todo}=require('./models/todo-model.js'); // is old method or alternativel
             // so by this we do not have to create every time a seperate extra line which is same to pull a different property from that same object
 const {User}=require('./models/user-model.js');
 const {authenticate} = require('./middleware/authenticate.js')
-const bcrypt = require('bcryptjs');
-var port = process.env.PORT|| 3000 ;
+
+var port = process.env.PORT /* || 3000 */ ;
 
 var app = express();
 
